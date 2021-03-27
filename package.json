@@ -1,0 +1,23 @@
+{
+  "name": "colour-models-conv",
+  "version": "1.0.0",
+  "description": "colour models converter",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gothic459/colour-models-conv.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gothic459/colour-models-conv/issues"
+  },
+  "homepage": "https://github.com/gothic459/colour-models-conv#readme",
+  "devDependencies": {
+    "electron": "^12.0.2"
+  }
+}
