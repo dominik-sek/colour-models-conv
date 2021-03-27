@@ -1,10 +1,11 @@
 {
   "name": "colour-models-conv",
   "version": "1.0.0",
+  "authon": "gothic459",
   "description": "colour models converter",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "electron ."
   },
   "repository": {
     "type": "git",
