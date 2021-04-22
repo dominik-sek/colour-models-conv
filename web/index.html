@@ -3,15 +3,14 @@
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="./src/style.css"/>
+    <link rel="stylesheet" href="./src/styles/style.css"/>
     <script type = "text/javascript" src ="/eel.js"></script>
 
 </head>
 
 <body>
-    <div class="wrapper" id="container"> 
+    <div class="wrapper" id="container" > 
         
-
     <div class = "side" id="sidebar">
         <nav>
             <p>Obraz wejściowy:</p>
@@ -22,164 +21,87 @@
         </nav>
     </div>
 
-    <div class="main" id="content">
-        
+    <div class="main" id="content" >
+
+
+
         <section id ="rgb">
-            <div id ="imagein">
-                <img src="" id="imageShow" alt="brak obrazka" style="display: none;">
+            <div id ="pre-conversion">
+                <img src="" id="image-container" alt="brak obrazka" style="display: none;">
                 <label id="photolabel" for="selectPhoto">Wybierz zdjęcie</label>
                         <input type="file" id="selectPhoto" style="display:none"accept="image/*">
                         Konwertuj do:
-                        <div id="conversion">
-                            
-                            <i id = "option" onclick =typeTo("hsv") onmouseover=showHistogram() onmouseout=closeHistogram()>hsv</i>
+                        <div class= "conversion-type" id="conversion">
+
+                            <i id = "option" onclick =typeTo("rgb") >rgb</i>
+                            <i id = "option" onclick =typeTo("hsv") >hsv</i>
                             <i id = "option" onclick =typeTo("cmyk") >cmyk</i>
                             <i id = "option" onclick =typeTo("yuv") >yuv</i>
 
                         </div>
             </div>
             
-            <div id ="converted">
-                
-            </div>
+            <div id ="converted"></div>
 
         </section>
 
         <section id ="hsv">
-            <div id ="imagein">
-                <img src="" id="imageShow" alt="brak obrazka">
+            <div id ="pre-conversion">
+                <img src="" id="image-container" alt="brak obrazka" style="display: none;">
                 <label id="photolabel" for="selectPhoto">Wybierz zdjęcie</label>
                         <input type="file" id="selectPhoto" style="display:none"accept="image/*">
                         Konwertuj do:
-                        <div id="conversion">
-                            
-                            <i id = "option" onclick =typeTo() onclick = showSelected() onmouseover=showHistogram() onmouseout= closeHistogram()>rgb</i>
-                            <i id = "option">cmyk</i>
-                            <i id = "option">yuv</i>
+                        <div class= "conversion-type" id="conversion">
+
+                            <i id = "option" onclick =typeTo("rgb") >rgb</i>
+                            <i id = "option" onclick =typeTo("hsv") >hsv</i>
+                            <i id = "option" onclick =typeTo("cmyk") >cmyk</i>
+                            <i id = "option" onclick =typeTo("yuv") >yuv</i>
 
                         </div>
             </div>
             
-            <div id ="converted">
-
-                <figure class="figure">
-                <img src="./src\imgs\converted\lenaCmyk.jpeg" id="cmykconv" alt="brak obrazka" class="figure-img img-fluid rounded">
-                <figcaption class="figure-caption">Cmyk</figcaption>
-                </figure>
-
-                <figure class="figure">
-                <img src="./src\imgs\converted\lenaC.jpeg" id="C" alt="brak obrazka" class="figure-img img-fluid rounded">
-                <figcaption class="figure-caption">Cyan</figcaption>
-                </figure>
-
-                <figure class="figure">
-                <img src="./src\imgs\converted\lenaM.jpeg" id="M" alt="brak obrazka" class="figure-img img-fluid rounded">
-                <figcaption class="figure-caption">Magenta</figcaption>
-                </figure>
-
-                <figure class="figure">
-                <img src="./src\imgs\converted\lenaY.jpeg" id="Y" alt="brak obrazka" class="figure-img img-fluid rounded">
-                <figcaption class="figure-caption">Yellow</figcaption>
-                </figure>
-
-                <figure class="figure">
-                <img src="./src\imgs\converted\lenaK.jpeg" id="K" alt="brak obrazka" class="figure-img img-fluid rounded">
-                <figcaption class="figure-caption">Black</figcaption>
-                </figure>
-
-            </div>
+            <div id ="converted"></div>
         </section>
 
         <section id ="cmyk">
-            <div id ="imagein">
-                <img src="" id="imageShow" alt="brak obrazka">
+            <div id ="pre-conversion">
+                <img src="" id="image-container" alt="brak obrazka" style="display: none;">
                 <label id="photolabel" for="selectPhoto">Wybierz zdjęcie</label>
                         <input type="file" id="selectPhoto" style="display:none"accept="image/*">
                         Konwertuj do:
-                        <div id="conversion">
-                            
-                            <i id = "option" onclick = showSelected() onmouseover=showHistogram() onmouseout= closeHistogram()>hsv</i>
-                            <i id = "option">rgb</i>
-                            <i id = "option">yuv</i>
+                        <div class= "conversion-type" id="conversion">
+
+                            <i id = "option" onclick =typeTo("rgb") >rgb</i>
+                            <i id = "option" onclick =typeTo("hsv") >hsv</i>
+                            <i id = "option" onclick =typeTo("cmyk") >cmyk</i>
+                            <i id = "option" onclick =typeTo("yuv") >yuv</i>
 
                         </div>
             </div>
             
-            <div id ="converted">
-
-                <figure class="figure">
-                <img src="./src\imgs\converted\lenaCmyk.jpeg" id="cmykconv" alt="brak obrazka" class="figure-img img-fluid rounded">
-                <figcaption class="figure-caption">Cmyk</figcaption>
-                </figure>
-
-                <figure class="figure">
-                <img src="./src\imgs\converted\lenaC.jpeg" id="C" alt="brak obrazka" class="figure-img img-fluid rounded">
-                <figcaption class="figure-caption">Cyan</figcaption>
-                </figure>
-
-                <figure class="figure">
-                <img src="./src\imgs\converted\lenaM.jpeg" id="M" alt="brak obrazka" class="figure-img img-fluid rounded">
-                <figcaption class="figure-caption">Magenta</figcaption>
-                </figure>
-
-                <figure class="figure">
-                <img src="./src\imgs\converted\lenaY.jpeg" id="Y" alt="brak obrazka" class="figure-img img-fluid rounded">
-                <figcaption class="figure-caption">Yellow</figcaption>
-                </figure>
-
-                <figure class="figure">
-                <img src="./src\imgs\converted\lenaK.jpeg" id="K" alt="brak obrazka" class="figure-img img-fluid rounded">
-                <figcaption class="figure-caption">Black</figcaption>
-                </figure>
-
-            </div>
+            <div id ="converted"></div>
         </section>
 
         <section id ="yuv">
-            <div id ="imagein">
-                <img src="" id="imageShow" alt="brak obrazka">
+            <div id ="pre-conversion">
+                <img src="" id="image-container" alt="brak obrazka" style="display: none;">
                 <label id="photolabel" for="selectPhoto">Wybierz zdjęcie</label>
                         <input type="file" id="selectPhoto" style="display:none"accept="image/*">
                         Konwertuj do:
-                        <div id="conversion">
-                            
-                            <i id = "option" onclick = showSelected() onmouseover=showHistogram() onmouseout= closeHistogram()>hsv</i>
-                            <i id = "option">cmyk</i>
-                            <i id = "option">rgb</i>
+                        <div class= "conversion-type" id="conversion">
+
+                            <i id = "option" onclick =typeTo("rgb") >rgb</i>
+                            <i id = "option" onclick =typeTo("hsv") >hsv</i>
+                            <i id = "option" onclick =typeTo("cmyk") >cmyk</i>
+                            <i id = "option" onclick =typeTo("yuv") >yuv</i>
 
                         </div>
             </div>
             
-            <div id ="converted">
-
-                <figure class="figure">
-                <img src="./src\imgs\converted\lenaCmyk.jpeg" id="cmykconv" alt="brak obrazka" class="figure-img img-fluid rounded">
-                <figcaption class="figure-caption">Cmyk</figcaption>
-                </figure>
-
-                <figure class="figure">
-                <img src="./src\imgs\converted\lenaC.jpeg" id="C" alt="brak obrazka" class="figure-img img-fluid rounded">
-                <figcaption class="figure-caption">Cyan</figcaption>
-                </figure>
-
-                <figure class="figure">
-                <img src="./src\imgs\converted\lenaM.jpeg" id="M" alt="brak obrazka" class="figure-img img-fluid rounded">
-                <figcaption class="figure-caption">Magenta</figcaption>
-                </figure>
-
-                <figure class="figure">
-                <img src="./src\imgs\converted\lenaY.jpeg" id="Y" alt="brak obrazka" class="figure-img img-fluid rounded">
-                <figcaption class="figure-caption">Yellow</figcaption>
-                </figure>
-
-                <figure class="figure">
-                <img src="./src\imgs\converted\lenaK.jpeg" id="K" alt="brak obrazka" class="figure-img img-fluid rounded">
-                <figcaption class="figure-caption">Black</figcaption>
-                </figure>
-
-            </div>
+            <div id ="converted"></div>
         </section>
-        
+
 
     </div>
     </div>
@@ -190,12 +112,12 @@
 <script>
     const selected = document.querySelector('#option');
     const input = document.querySelector('#selectPhoto');
-    const img = document.querySelector('#imageShow');
+    const img = document.querySelector('#image-container');
     const photolabel = document.querySelector('#photolabel');
     const inside = document.querySelector('#cmykconv');
     const converted = document.querySelector('#converted');
+    //const content = document.querySelector("#content");
     let typeFromString = "";
-    let typeToString = "";
 
     input.addEventListener('change', function(){
         const file = this.files[0]
@@ -204,79 +126,72 @@
             reader.onload = function(){
             const result = reader.result;
             img.src = result; // result == base64 image
-            console.log(result)
-            eel.link(result)
-            (
-                function(ret){
-                    //console.log(ret)
-            }
-            )
+            eel.link(result)()
             //---------py---------
             }
         reader.readAsDataURL(file)
         }
         img.style.display = "block"
 
-    });
+    }
+    );
 
-    input.addEventListener('click', function(){
-        while(converted.firstChild){
-            converted.removeChild(converted.firstChild)
-        }
-    })
-    selected.addEventListener('click', function(){
-        while(converted.firstChild){
-            converted.removeChild(converted.firstChild)
-        }
-    })
-   
-
-    selected.click(function(){
-        selected.css('background','rgba(255, 0, 0, 0.5)')
+    input.addEventListener('click',removeChildren)
+    selected.addEventListener('click', removeChildren)
+    window.addEventListener('load', ()=>{
+        removeChildren();
+        clearChildren();
     })
 
+    
     function typeFrom(type){
-        typeFromString = type
+         typeFromString = type
+    }
+
+
+
+    function removeChildren(){
+        while(converted.firstChild){
+            converted.removeChild(converted.firstChild)
+        }
+    }
+
+    function clearChildren(){
+        document.querySelectorAll(".conversion-type i")
+        .forEach((option)=>{
+            console.log(option)
+            option.addEventListener('click', ()=>{removeChildren()})
+        })
     }
 
     async function typeTo(type){
-        typeToString = typeFromString+"2"+type
+        let typeToString = await typeFromString+"2"+type
 
          eel.which_fun(typeToString)(
         function(ret) { //callback
-            //console.log(ret)
+            for(let img in ret){
+            let figure = document.createElement('FIGURE');
+            let image = document.createElement('img');
+            let figcaption = document.createElement('FIGCAPTION')
+            let figcaption_text = document.createTextNode(img)
+            // var label = document.createElement('LABEL');
+            //var labelText = document.createTextNode(img);
+            //<label id="photolabel" for="selectPhoto">Wybierz zdjęcie</label>
+            image.src="data:image/jpeg;base64,"+ret[img]
+            image.id=img;
+            // label.setAttribute("for",img)
+            //  label.appendChild(labelText)
+            figcaption.appendChild(figcaption_text);
+            figure.appendChild(image);
+            figure.appendChild(figcaption)
+            converted.appendChild(figure);
         }
-        )
-        //get images
-        await eel.passImages()(
-
-             function(ret){
-                
-                for(var img in ret){
-                    var figure = document.createElement('FIGURE');
-                    var image = document.createElement('img');
-                    var figcaption = document.createElement('FIGCAPTION')
-                    var figcaption_text = document.createTextNode(img)
-                   // var label = document.createElement('LABEL');
-                    //var labelText = document.createTextNode(img);
-                    //<label id="photolabel" for="selectPhoto">Wybierz zdjęcie</label>
-                    image.src="data:image/jpeg;base64,"+ret[img]
-                    image.id=img;
-                   // label.setAttribute("for",img)
-                  //  label.appendChild(labelText)
-                    figcaption.appendChild(figcaption_text);
-                    figure.appendChild(image);
-                    figure.appendChild(figcaption)
-                    converted.appendChild(figure);
-                }
-            }
-        )
-
-        
     }
+        
+        )
+    }
+ 
 
-
-    //python
     
 </script>
 

@@ -1,0 +1,42 @@
+#sidebar{
+
+    height:100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    flex:0.17;
+    z-index: 999;
+    background: #7e7e7e;
+    opacity: 0.9;
+    text-align: center;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    
+
+    ul li{
+        width: 100%;
+    }
+
+    nav{
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        a {
+            text-decoration: none;
+            display: flex;
+            color:#000;
+            align-items: center;
+            height: 10%;
+            width: 100%;
+            background: rgba(88, 88, 88, 0.41);
+            opacity: 0.8;
+            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    
+    
+            &:hover{
+                background: rgba(31, 140, 212, 0.5);
+                transition: all ease-in-out 0.2s;
+            }
+        }
+    }
+}

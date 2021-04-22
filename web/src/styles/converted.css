@@ -1,0 +1,25 @@
+#converted {
+  width: 100%;
+  background: #a8a8a8;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
+  -ms-flex-negative: initial;
+      flex-shrink: initial;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  height: -webkit-fill-available;
+  margin: 10px;
+}
+
+#converted img {
+  height: 256px;
+  width: 256px;
+}
+/*# sourceMappingURL=converted.css.map */
