@@ -1,9 +1,7 @@
 #pre-conversion {
     display: flex;
-    flex-direction: column;
-    height: 60%;
-    min-height: 256px !important;
-    min-width: 256px !important;
+    flex-direction:column;
+    justify-content: center;
     align-items: center;
     text-align: center;
 
@@ -11,14 +9,30 @@
         width: 128px;
     }
 
-    img {
-        height: 256px !important;
-        width: 256px !important;
+    #image-container-parent{
+        height:256px !important;
+        justify-content: center;
+      
+    }
+    img{
+        max-height: 256px;
+        min-height: 256px;
+        height:256px !important;
     }
 
-    #photolabel {
-        cursor: pointer;
-        height: 20%;
-        padding: 5px 5px 20px 5px;
-    }
+        #photolabel {
+            cursor: pointer;
+            position: absolute;
+            right: 10%;
+         
+            img{
+                width: 32px;
+                height: 32px !important;
+                min-height: 32px !important;
+
+            }
+        }
+    
+
+
 }

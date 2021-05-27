@@ -5,7 +5,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="./src/styles/style.css"/>
     <script type = "text/javascript" src ="/eel.js"></script>
-
+    
 </head>
 
 <body>
@@ -13,23 +13,23 @@
         
     <div class = "side" id="sidebar">
         <nav>
-            <p>Obraz wejściowy:</p>
+            <p>Standard kolorów obrazu wejściowego:</p>
             <a href = "#rgb" onclick=typeFrom("rgb")><i>RGB</i></a>
             <a href = "#hsv" onclick=typeFrom("hsv")><i>hsv</i></a>
             <a href = "#cmyk" onclick=typeFrom("cmyk") ><i>cmyk</i></a>
-            <a href = "#yuv"onclick=typeFrom("rgb") ><i>yuv</i></a>
+            <a href = "#yuv"onclick=typeFrom("yuv") ><i>yuv</i></a>
         </nav>
     </div>
 
     <div class="main" id="content" >
 
-
+       
 
         <section id ="rgb">
             <div id ="pre-conversion">
-                <img src="" id="image-container" alt="brak obrazka" style="display: none;">
-                <label id="photolabel" for="selectPhoto">Wybierz zdjęcie</label>
-                        <input type="file" id="selectPhoto" style="display:none"accept="image/*">
+              <div id="image-container-parent"> <img src="" id="image-container" class="rgb-img" alt="brak obrazka"></div>
+                 <label id="photolabel" for="selectPhoto"><img id="image-icon" src="./src/icons/images.png">Wybierz zdjęcie</label>
+                        <input type="file" id="selectPhoto" style="display:none" accept="image/*">
                         Konwertuj do:
                         <div class= "conversion-type" id="conversion">
 
@@ -41,15 +41,15 @@
                         </div>
             </div>
             
-            <div id ="converted"></div>
+            <div id ="converted" class = "rgb-converted"></div>
 
         </section>
 
         <section id ="hsv">
             <div id ="pre-conversion">
-                <img src="" id="image-container" alt="brak obrazka" style="display: none;">
-                <label id="photolabel" for="selectPhoto">Wybierz zdjęcie</label>
-                        <input type="file" id="selectPhoto" style="display:none"accept="image/*">
+                <div id="image-container-parent"> <img src="" id="image-container" class="hsv-img" alt="brak obrazka"></div>
+                <label id="photolabel" for="selectPhoto"><img id="image-icon" src="./src/icons/images.png">Wybierz zdjęcie</label>
+                       <input type="file" id="selectPhoto" style="display:none" accept="image/*">
                         Konwertuj do:
                         <div class= "conversion-type" id="conversion">
 
@@ -61,14 +61,14 @@
                         </div>
             </div>
             
-            <div id ="converted"></div>
+            <div id ="converted" class = "hsv-converted"></div>
         </section>
 
         <section id ="cmyk">
             <div id ="pre-conversion">
-                <img src="" id="image-container" alt="brak obrazka" style="display: none;">
-                <label id="photolabel" for="selectPhoto">Wybierz zdjęcie</label>
-                        <input type="file" id="selectPhoto" style="display:none"accept="image/*">
+                <div id="image-container-parent"> <img src="" id="image-container" class= "cmyk-img" alt="brak obrazka"></div>
+                <label id="photolabel" for="selectPhoto"><img id="image-icon" src="./src/icons/images.png">Wybierz zdjęcie</label>
+                       <input type="file" id="selectPhoto" style="display:none" accept="image/*">
                         Konwertuj do:
                         <div class= "conversion-type" id="conversion">
 
@@ -80,14 +80,14 @@
                         </div>
             </div>
             
-            <div id ="converted"></div>
+            <div id ="converted" class = "cmyk-converted"></div>
         </section>
 
         <section id ="yuv">
             <div id ="pre-conversion">
-                <img src="" id="image-container" alt="brak obrazka" style="display: none;">
-                <label id="photolabel" for="selectPhoto">Wybierz zdjęcie</label>
-                        <input type="file" id="selectPhoto" style="display:none"accept="image/*">
+                <div id="image-container-parent"> <img src="" id="image-container" class = "yuv-img" alt="brak obrazka"></div>
+                <label id="photolabel" for="selectPhoto"><img id="image-icon" src="./src/icons/images.png">Wybierz zdjęcie</label>
+                       <input type="file" id="selectPhoto" style="display:none" accept="image/*">
                         Konwertuj do:
                         <div class= "conversion-type" id="conversion">
 
@@ -99,7 +99,7 @@
                         </div>
             </div>
             
-            <div id ="converted"></div>
+            <div id ="converted" class = "yuv-converted"></div>
         </section>
 
 
@@ -112,12 +112,24 @@
 <script>
     const selected = document.querySelector('#option');
     const input = document.querySelector('#selectPhoto');
-    const img = document.querySelector('#image-container');
     const photolabel = document.querySelector('#photolabel');
     const inside = document.querySelector('#cmykconv');
     const converted = document.querySelector('#converted');
     //const content = document.querySelector("#content");
-    let typeFromString = "";
+    let typeFromString = "rgb";
+    let img = document.querySelector("."+typeFromString+"-img");
+    let conv = document.querySelector("."+typeFromString+"-converted");
+
+
+     function typeFrom(type){
+         console.log("changed typefrom " + typeFromString);
+         typeFromString = type;
+         img = document.querySelector("."+typeFromString+"-img");
+         conv = document.querySelector("."+typeFromString+"-converted");
+         console.log(type);
+         console.log("."+typeFromString+"-img")
+    }
+    
 
     input.addEventListener('change', function(){
         const file = this.files[0]
@@ -143,10 +155,6 @@
         clearChildren();
     })
 
-    
-    function typeFrom(type){
-         typeFromString = type
-    }
 
 
 
@@ -169,25 +177,49 @@
 
          eel.which_fun(typeToString)(
         function(ret) { //callback
+
             for(let img in ret){
-            let figure = document.createElement('FIGURE');
-            let image = document.createElement('img');
-            let figcaption = document.createElement('FIGCAPTION')
-            let figcaption_text = document.createTextNode(img)
-            // var label = document.createElement('LABEL');
-            //var labelText = document.createTextNode(img);
-            //<label id="photolabel" for="selectPhoto">Wybierz zdjęcie</label>
-            image.src="data:image/jpeg;base64,"+ret[img]
-            image.id=img;
-            // label.setAttribute("for",img)
-            //  label.appendChild(labelText)
-            figcaption.appendChild(figcaption_text);
-            figure.appendChild(image);
-            figure.appendChild(figcaption)
-            converted.appendChild(figure);
+                console.log(ret)
+                let figure = document.createElement('FIGURE');
+                let image = document.createElement('img');
+                let image_hist = document.createElement('img')
+                let figcaption = document.createElement('FIGCAPTION')
+                let figcaption_text = document.createTextNode(img)
+                image.src="data:image/png;base64,"+ret[img][0]
+                image.id=img;
+                image_hist.src="data:image/png;base64,"+ret[img][1]
+                image_hist.id = img;
+
+               
+                figcaption.appendChild(figcaption_text);
+                figure.appendChild(figcaption);
+                figure.appendChild(image);
+
+                figure.onmouseover = function (){
+                    while(figure.firstChild){
+                        figure.removeChild(figure.firstChild)
+                    }
+
+                    figcaption.appendChild(figcaption_text);
+                    figure.appendChild(figcaption);
+                    figure.appendChild(image_hist);
+                    
+                }
+                figure.onmouseout = function (){
+                    while(figure.firstChild){
+                        figure.removeChild(figure.firstChild)
+                    }
+
+                    figcaption.appendChild(figcaption_text);
+                    figure.appendChild(figcaption);
+                    figure.appendChild(image);
+
+                }
+
+                conv.appendChild(figure);
+                //converted.appendChild(image_hist)
         }
     }
-        
         )
     }
  

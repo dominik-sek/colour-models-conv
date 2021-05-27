@@ -6,11 +6,18 @@
     flex-shrink: initial;
     align-items: center;
     justify-content: space-evenly;
-    height: -webkit-fill-available;
+    height: 50%;
     margin: 10px;
 
     img {
         height: 256px;
         width: 256px;
+    }
+
+    figure{
+
+        &:hover{
+            animation-duration: 100ms;
+        }
     }
 }
