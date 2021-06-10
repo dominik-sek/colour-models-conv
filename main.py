@@ -76,8 +76,8 @@ def r2h():
 
         list64 = {
             "Hue": [hue_64, huehist_64],
-            "Value": [value_64, valuehist_64],
             "Saturation": [sat_64, sathist_64],
+            "Value": [value_64, valuehist_64],
             "HSV": [hsv_64, hsvhist_64]
         }
 
@@ -92,6 +92,7 @@ def r2cmyk():
 
         c,m,y,k = cv2.split(np_image)
 
+
         
         cyan_64 = encode(c)
         magenta_64 = encode(m)
@@ -101,28 +102,48 @@ def r2cmyk():
             "Cyan": [cyan_64],
             "Magenta": [magenta_64],
             "Yellow": [yellow_64],
-            "Black": [bk_64],
 
         }
         return list64
+
+
+def make_lut_u():
+    return np.array([[[i,255-i,0] for i in range(256)]],dtype=np.uint8)
+
+def make_lut_v():
+    return np.array([[[0,255-i,i] for i in range(256)]],dtype=np.uint8)
 
 def r2yuv():
     while link_to_image is None:
         pass
     else:
         image = link_to_image
-        yuv = rgb2yuv(image)
-        y = yuv[:, :, 0]
-        u = yuv[:, :, 2]
-        v = yuv[:, :, 1]
+        img_yuv = cv2.cvtColor(image, cv2.COLOR_BGR2YUV)
+        y, u, v = cv2.split(img_yuv)
+        lut_u, lut_v = make_lut_u(), make_lut_v()
+
+        y = cv2.cvtColor(y, cv2.COLOR_GRAY2BGR)
+        u = cv2.cvtColor(u, cv2.COLOR_GRAY2BGR)
+        v = cv2.cvtColor(v, cv2.COLOR_GRAY2BGR)
+
+        u_m = cv2.LUT(u, lut_u)
+        v_m = cv2.LUT(v, lut_v)
+
 
         y_64 = encode(y)
-        u_64 = encode(u)
-        v_64 = encode(v)
+        u_64 = encode(u_m)
+        v_64 = encode(v_m)
+        img_yuv_64 = encode(img_yuv)
+
+        yhist_64 = encode(makeHist(y))
+        uhist_64 = encode(makeHist(u_m))
+        vhist_64 = encode(makeHist(v_m))
+
         list64 = {  # list of base64 images
-            "Luminance(Y)": [y_64],
-            "Bandwidth(U)": [u_64],
-            "Chrominance(V)": [v_64],
+            "Luminance(Y)": [y_64,yhist_64],
+            "Bandwidth(U)": [u_64,uhist_64],
+            "Chrominance(V)": [v_64,vhist_64],
+            "YUV":[img_yuv_64,vhist_64]
         }
         return list64
 
