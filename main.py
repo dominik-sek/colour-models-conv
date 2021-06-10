@@ -60,17 +60,20 @@ def r2h():
         rgb = link_to_image
         hsv = rgb2hsv(rgb)
         hue = hsv[:, :, 0]
+        print("hue: ",hue)
         value = hsv[:, :, 2]
         sat = hsv[:, :, 1]
 
         hue_64 = encode(hue)
         value_64 = encode(value)
         sat_64 = encode(sat)
+        hsv_64 = encode(hsv)
 
         list64 = {
             "Hue": [hue_64],
             "Value": [value_64],
-            "Saturation": [sat_64]
+            "Saturation": [sat_64],
+            "HSV": [hsv_64]
         }
 
         return list64
@@ -190,12 +193,18 @@ def r2r():
 
         return list64
 #ENDOF RGB TO OTHERS
+def r2grayscale():
+    while link_to_image is None:
+        pass
+    else:
+        image = link_to_image
+    pass
 
 # ###########################HSV###############################
 
 #HSV TO OTHERS
 
-
+###deprecated methods###
 def h2r():
     while link_to_image is None:
         pass
@@ -223,7 +232,6 @@ def h2r():
             "Blue": [blue_64]
         }
         return list64
-
 
 def h2h():
     pass
@@ -265,8 +273,6 @@ def yuv2y():
 
 
 
-
-
 ###########################################################################
 
 dispatcher = {
@@ -275,6 +281,7 @@ dispatcher = {
     'rgb2cmyk': r2cmyk,
     'rgb2yuv': r2yuv,
     'rgb2rgb': r2r,
+    'rgb2grayscale': r2grayscale,
 
     'hsv2rgb' : h2r,
     'hsv2hsv' : h2h,
@@ -291,15 +298,11 @@ dispatcher = {
     'yuv2cmyk' : yuv2cmyk,
     'yuv2yuv' : yuv2y,
 
-
-
 }
-
 
 # @eel.expose
 # def passImages(dispatcher):
 # print("fired passImages ",)
-
 #  return r2h()
 
 @eel.expose

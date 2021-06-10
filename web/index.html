@@ -13,11 +13,11 @@
         
     <div class = "side" id="sidebar">
         <nav>
-            <p>Standard kolorów obrazu wejściowego:</p>
-            <a href = "#rgb" onclick=typeFrom("rgb")><i>RGB</i></a>
-            <a href = "#hsv" onclick=typeFrom("hsv")><i>hsv</i></a>
+            <p></p>
+            <a href = "#rgb" onclick=typeFrom("rgb")><i>Wczytywanie obrazu</i></a>
+            <!-- <a href = "#hsv" onclick=typeFrom("hsv")><i>hsv</i></a>
             <a href = "#cmyk" onclick=typeFrom("cmyk") ><i>cmyk</i></a>
-            <a href = "#yuv"onclick=typeFrom("yuv") ><i>yuv</i></a>
+            <a href = "#yuv"onclick=typeFrom("yuv") ><i>yuv</i></a> -->
         </nav>
     </div>
 
@@ -37,6 +37,7 @@
                             <i id = "option" onclick =typeTo("hsv") >hsv</i>
                             <i id = "option" onclick =typeTo("cmyk") >cmyk</i>
                             <i id = "option" onclick =typeTo("yuv") >yuv</i>
+                            <i id = "option" onclick = typeTo("grayscale")>skala szarości</i>
 
                         </div>
             </div>
@@ -45,7 +46,7 @@
 
         </section>
 
-        <section id ="hsv">
+        <!-- <section id ="hsv">
             <div id ="pre-conversion">
                 <div id="image-container-parent"> <img src="" id="image-container" class="hsv-img" alt="brak obrazka"></div>
                 <label id="photolabel" for="selectPhoto"><img id="image-icon" src="./src/icons/images.png">Wybierz zdjęcie</label>
@@ -100,7 +101,7 @@
             </div>
             
             <div id ="converted" class = "yuv-converted"></div>
-        </section>
+        </section> -->
 
 
     </div>
@@ -156,8 +157,6 @@
     })
 
 
-
-
     function removeChildren(){
         while(converted.firstChild){
             converted.removeChild(converted.firstChild)
@@ -187,6 +186,8 @@
                 let figcaption_text = document.createTextNode(img)
                 image.src="data:image/png;base64,"+ret[img][0]
                 image.id=img;
+
+
                 image_hist.src="data:image/png;base64,"+ret[img][1]
                 image_hist.id = img;
 
@@ -195,26 +196,26 @@
                 figure.appendChild(figcaption);
                 figure.appendChild(image);
 
-                figure.onmouseover = function (){
-                    while(figure.firstChild){
-                        figure.removeChild(figure.firstChild)
-                    }
+                // figure.onmouseover = function (){
+                //     while(figure.firstChild){
+                //         figure.removeChild(figure.firstChild)
+                //     }
 
-                    figcaption.appendChild(figcaption_text);
-                    figure.appendChild(figcaption);
-                    figure.appendChild(image_hist);
+                //     figcaption.appendChild(figcaption_text);
+                //     figure.appendChild(figcaption);
+                //     figure.appendChild(image_hist);
                     
-                }
-                figure.onmouseout = function (){
-                    while(figure.firstChild){
-                        figure.removeChild(figure.firstChild)
-                    }
+                // }
+                // figure.onmouseout = function (){
+                //     while(figure.firstChild){
+                //         figure.removeChild(figure.firstChild)
+                //     }
 
-                    figcaption.appendChild(figcaption_text);
-                    figure.appendChild(figcaption);
-                    figure.appendChild(image);
+                //     figcaption.appendChild(figcaption_text);
+                //     figure.appendChild(figcaption);
+                //     figure.appendChild(image);
 
-                }
+                // }
 
                 conv.appendChild(figure);
                 //converted.appendChild(image_hist)
