@@ -180,7 +180,7 @@ section #conversion i:hover {
   transition: all ease-in-out 0.2s;
 }
 
-#converted {
+#converted, #histograms {
   width: 100%;
   background: #a8a8a8;
   display: -webkit-box;
@@ -200,12 +200,12 @@ section #conversion i:hover {
   margin: 10px;
 }
 
-#converted img {
+#converted img, #histograms img {
   height: 256px;
   width: 256px;
 }
 
-#converted figure:hover {
+#converted figure:hover, #histograms figure:hover {
   -webkit-animation-duration: 100ms;
           animation-duration: 100ms;
 }

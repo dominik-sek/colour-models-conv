@@ -37,12 +37,12 @@
                             <i id = "option" onclick =typeTo("hsv") >hsv</i>
                             <i id = "option" onclick =typeTo("cmyk") >cmyk</i>
                             <i id = "option" onclick =typeTo("yuv") >yuv</i>
-                            <i id = "option" onclick = typeTo("grayscale")>skala szarości</i>
 
                         </div>
             </div>
-            
+        
             <div id ="converted" class = "rgb-converted"></div>
+            <div id="histograms" class = "rgb-histograms"></div>
 
         </section>
 
@@ -120,7 +120,7 @@
     let typeFromString = "rgb";
     let img = document.querySelector("."+typeFromString+"-img");
     let conv = document.querySelector("."+typeFromString+"-converted");
-
+    let hist = document.querySelector(".rgb-histograms");
 
      function typeFrom(type){
          console.log("changed typefrom " + typeFromString);
@@ -158,8 +158,9 @@
 
 
     function removeChildren(){
-        while(converted.firstChild){
+        while(converted.firstChild && hist.firstChild){
             converted.removeChild(converted.firstChild)
+            hist.removeChild(hist.firstChild)
         }
     }
 
@@ -181,43 +182,34 @@
                 console.log(ret)
                 let figure = document.createElement('FIGURE');
                 let image = document.createElement('img');
-                let image_hist = document.createElement('img')
                 let figcaption = document.createElement('FIGCAPTION')
                 let figcaption_text = document.createTextNode(img)
+
+
+                let figurehist = document.createElement('FIGURE');
+                let image_hist = document.createElement('img')
+                let figcaptionhist = document.createElement('FIGCAPTION')
+                let figcaption_text_hist = document.createTextNode(img + " histogram")
+
+                
                 image.src="data:image/png;base64,"+ret[img][0]
                 image.id=img;
-
 
                 image_hist.src="data:image/png;base64,"+ret[img][1]
                 image_hist.id = img;
 
-               
+
                 figcaption.appendChild(figcaption_text);
                 figure.appendChild(figcaption);
                 figure.appendChild(image);
-
-                // figure.onmouseover = function (){
-                //     while(figure.firstChild){
-                //         figure.removeChild(figure.firstChild)
-                //     }
-
-                //     figcaption.appendChild(figcaption_text);
-                //     figure.appendChild(figcaption);
-                //     figure.appendChild(image_hist);
-                    
-                // }
-                // figure.onmouseout = function (){
-                //     while(figure.firstChild){
-                //         figure.removeChild(figure.firstChild)
-                //     }
-
-                //     figcaption.appendChild(figcaption_text);
-                //     figure.appendChild(figcaption);
-                //     figure.appendChild(image);
-
-                // }
-
                 conv.appendChild(figure);
+                
+
+                figcaptionhist.appendChild(figcaption_text_hist);
+                figurehist.appendChild(figcaptionhist);
+                figurehist.appendChild(image_hist);
+                hist.appendChild(figurehist);
+
                 //converted.appendChild(image_hist)
         }
     }

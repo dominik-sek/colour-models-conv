@@ -1,7 +1,7 @@
 import eel
-from skimage.color.colorconv import gray2rgb, hsv2rgb
+from skimage.color.colorconv import gray2rgb, hsv2rgb, rgb2gray
 import skimage.io
-from skimage import io, exposure
+from skimage import io, exposure,img_as_float
 from io import BytesIO
 from skimage.color import rgb2hsv, rgb2yuv
 from PIL import Image
@@ -86,7 +86,6 @@ def r2cmyk():
         np_image = np.array(image)
 
         c,m,y,k = cv2.split(np_image)
-        print(c)
 
         
         cyan_64 = encode(c)
@@ -130,74 +129,118 @@ def r2r():
         imagegreen = image.copy()
         imagegreen[:, :, 0] = 0
         imagegreen[:, :, 2] = 0
-        plt.figure(1)
-        fig, axs = plt.subplots(1)
 
-        axs.hist(imagegreen.ravel(), bins=256, color='green', alpha=0.5)
-        #config:
-        axs.axis('off')
-        fig.tight_layout(pad = 0)
-        axs.margins(0)
-        fig.canvas.draw()
-        green_hist = np.frombuffer(fig.canvas.tostring_rgb(), dtype=np.uint8)
+        greenhist = imagegreen.copy()
+        greenhist = rgb2gray(greenhist)
+
+        
+        histogram,bin_edges = np.histogram(greenhist,bins=256,range=(0,1))
+        fig_g = plt.figure()
+        plt.xlim([0.0,1.0])
+        plt.plot(bin_edges[0:-1],histogram)
+
+        fig_g.canvas.draw()
+        w,h = fig_g.canvas.get_width_height()
+        greenhist = np.fromstring(fig_g.canvas.tostring_argb(),dtype =np.uint8)
+        greenhist.shape = (w,h,4)
+        greenhist = np.roll(greenhist,3,axis=2)
+
+        greenhist_i = Image.frombytes("RGBA",(w,h),greenhist.tostring())
+        greenhist = np.asarray(greenhist_i)
+        
+
+        #green_hist = np.frombuffer(fig.canvas.tostring_rgb(), dtype=np.uint8)
         #green_hist = green_hist.reshape(fig.canvas.get_width_height()[::-1]+(3,))
 
         imageblue = image.copy()
         imageblue[:, :, 0] = 0
         imageblue[:, :, 1] = 0
 
-        plt.figure(1)
-        fig, axs = plt.subplots(1)
+        bluehist = imageblue.copy()
+        bluehist = rgb2gray(bluehist)
 
-        axs.hist(imageblue.ravel(), bins=256, color='blue', alpha=0.5)
-        #config:
-        axs.axis('off')
-        fig.tight_layout(pad = 0)
-        axs.margins(0)
-        fig.canvas.draw()
-        blue_hist = np.frombuffer(fig.canvas.tostring_rgb(), dtype=np.uint8)
-        blue_hist = blue_hist.reshape(fig.canvas.get_width_height()[::-1]+(3,))
+        histogram,bin_edges = np.histogram(bluehist,bins=256,range=(0,1))
 
+        fig_b = plt.figure()
+        plt.xlim([0.0,1.0])
+        plt.plot(bin_edges[0:-1],histogram)
+
+        fig_b.canvas.draw()
+        w,h = fig_b.canvas.get_width_height()
+        bluehist = np.fromstring(fig_b.canvas.tostring_argb(),dtype =np.uint8)
+        bluehist.shape = (w,h,4)
+        bluehist = np.roll(bluehist,3,axis=2)
+
+        bluehist_i = Image.frombytes("RGBA",(w,h),bluehist.tostring())
+        bluehist = np.asarray(bluehist_i)
 
         imagered = image.copy()
         imagered[:, :, 1] = 0
         imagered[:, :, 2] = 0
 
-        plt.figure(1)
-        fig, axs = plt.subplots(1)
+        redhist = imagered.copy()
+        redhist = rgb2gray(redhist)
 
-        axs.hist(imagered.ravel(), bins=256, color='red', alpha=0.5)
-        #config:
-        axs.axis('off')
-        fig.tight_layout(pad = 0)
-        axs.margins(0)
-        fig.canvas.draw()
-        red_hist = np.frombuffer(fig.canvas.tostring_rgb(), dtype=np.uint8)
-        red_hist = red_hist.reshape(fig.canvas.get_width_height()[::-1]+(3,))
+        histogram,bin_edges = np.histogram(redhist,bins=256,range=(0,1))
+        fig_r = plt.figure()
+        plt.xlim([0.0,1.0])
+        plt.plot(bin_edges[0:-1],histogram)
+
+        fig_r.canvas.draw()
+        w,h = fig_r.canvas.get_width_height()
+        redhist = np.fromstring(fig_r.canvas.tostring_argb(),dtype =np.uint8)
+        redhist.shape = (w,h,4)
+        redhist = np.roll(redhist,3,axis=2)
+
+        redhist_i = Image.frombytes("RGBA",(w,h),redhist.tostring())
+        redhist = np.asarray(redhist_i)
+
 
 
         red_64 = encode(imagered)
-        red_hist_64 = encode(red_hist)
+        red_hist_64 = encode(redhist)##tu
 
         green_64 = encode(imagegreen)
-        green_hist_64 = encode(green_hist)
+        green_hist_64 = encode(greenhist)##tu
 
         blue_64 = encode(imageblue)
-        blue_hist_64 = encode(blue_hist)
+        blue_hist_64 = encode(bluehist)
+        
+
+#------------------------grayscale------------------------#
+        rgbgray = link_to_image
+        rgbgray = rgb2gray(rgbgray)
+
+        histogram,bin_edges = np.histogram(rgbgray,bins=256,range=(0,1))
+        fig_rgbg = plt.figure()
+        plt.xlim([0.0,1.0])
+        plt.plot(bin_edges[0:-1],histogram)
+        
+        fig_rgbg.canvas.draw()
+        w,h = fig_rgbg.canvas.get_width_height()
+        grayhist = np.fromstring(fig_rgbg.canvas.tostring_argb(),dtype =np.uint8)
+        grayhist.shape = (w,h,4)
+        grayhist = np.roll(grayhist,3,axis=2)
+
+        grayhist_i = Image.frombytes("RGBA",(w,h),grayhist.tostring())
+        grayhist = np.asarray(grayhist_i)
+
+
+        rgbgray_64 = encode(rgbgray)
+        gray_hist_64 = encode(grayhist)
+        #blue_hist_64 = encode(blue_hist)
+
 
         list64 = {  # list of base64 images
             "Red": [red_64, red_hist_64],
             "Green": [green_64, green_hist_64],
             "Blue": [blue_64, blue_hist_64],
+            "RGB to grayscale":[rgbgray_64, gray_hist_64]
         }
 
         return list64
 #ENDOF RGB TO OTHERS
 def r2grayscale():
-    while link_to_image is None:
-        pass
-    else:
-        image = link_to_image
     pass
 
 # ###########################HSV###############################
@@ -212,9 +255,7 @@ def h2r():
         print("fired h2r")
         hsv = link_to_image
         rgb = hsv2rgb(hsv)
-        print(rgb)
         print("++=====++")
-        print(hsv)
 
         red = rgb[:, :, 0]
         green = rgb[:, :, 2]
@@ -281,7 +322,7 @@ dispatcher = {
     'rgb2cmyk': r2cmyk,
     'rgb2yuv': r2yuv,
     'rgb2rgb': r2r,
-    'rgb2grayscale': r2grayscale,
+    #'rgb2grayscale': r2grayscale,
 
     'hsv2rgb' : h2r,
     'hsv2hsv' : h2h,
