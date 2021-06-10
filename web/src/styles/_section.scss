@@ -24,6 +24,8 @@ section {
         z-index: 999;
         background: #b4b4b4;
         border-radius: 20px;
+        overflow-y: hidden;
+
         i {
             text-decoration: none;
             display: flex;
@@ -32,6 +34,8 @@ section {
             user-select: none;
             border-right: 1px solid rgb(141, 141, 141);
             cursor: pointer;
+            overflow-y: hidden;
+
             &:hover {
                 background: rgba(0, 0, 0, 0.13);
                 transition: all ease-in-out 0.2s;

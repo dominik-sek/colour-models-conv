@@ -94,6 +94,7 @@
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+  overflow-y: hidden;
 }
 
 #pre-conversion img {
@@ -154,6 +155,7 @@ section #conversion {
   z-index: 999;
   background: #b4b4b4;
   border-radius: 20px;
+  overflow-y: hidden;
 }
 
 section #conversion i {
@@ -173,6 +175,7 @@ section #conversion i {
           user-select: none;
   border-right: 1px solid #8d8d8d;
   cursor: pointer;
+  overflow-y: hidden;
 }
 
 section #conversion i:hover {
@@ -213,7 +216,6 @@ section #conversion i:hover {
 
 * {
   font-family: "Quicksand";
-  overflow-y: hidden;
   overflow-x: hidden;
   margin: 0;
   padding: 0;
