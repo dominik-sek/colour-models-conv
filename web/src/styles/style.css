@@ -82,6 +82,7 @@
       -ms-flex-align: center;
           align-items: center;
   text-align: center;
+  height: 50%;
 }
 
 #pre-conversion input {

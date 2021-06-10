@@ -56,24 +56,29 @@ def r2h():
     while link_to_image is None:
         pass
     else:
-        print("fired r2h")
         rgb = link_to_image
         hsv = rgb2hsv(rgb)
         hue = hsv[:, :, 0]
-        print("hue: ",hue)
         value = hsv[:, :, 2]
         sat = hsv[:, :, 1]
 
+        huehist_64 = encode(makeHist(hue))
         hue_64 = encode(hue)
+
         value_64 = encode(value)
+        valuehist_64 = encode(makeHist(value))
+
         sat_64 = encode(sat)
+        sathist_64 = encode(makeHist(sat))
+
         hsv_64 = encode(hsv)
+        hsvhist_64 = encode(makeHist(hsv))
 
         list64 = {
-            "Hue": [hue_64],
-            "Value": [value_64],
-            "Saturation": [sat_64],
-            "HSV": [hsv_64]
+            "Hue": [hue_64, huehist_64],
+            "Value": [value_64, valuehist_64],
+            "Saturation": [sat_64, sathist_64],
+            "HSV": [hsv_64, hsvhist_64]
         }
 
         return list64
@@ -133,22 +138,7 @@ def r2r():
         greenhist = imagegreen.copy()
         greenhist = rgb2gray(greenhist)
 
-        
-        histogram,bin_edges = np.histogram(greenhist,bins=256,range=(0,1))
-        fig_g = plt.figure()
-        plt.xlim([0.0,1.0])
-        plt.plot(bin_edges[0:-1],histogram)
-
-        fig_g.canvas.draw()
-        w,h = fig_g.canvas.get_width_height()
-        greenhist = np.fromstring(fig_g.canvas.tostring_argb(),dtype =np.uint8)
-        greenhist.shape = (w,h,4)
-        greenhist = np.roll(greenhist,3,axis=2)
-
-        greenhist_i = Image.frombytes("RGBA",(w,h),greenhist.tostring())
-        greenhist = np.asarray(greenhist_i)
-        
-
+    
         #green_hist = np.frombuffer(fig.canvas.tostring_rgb(), dtype=np.uint8)
         #green_hist = green_hist.reshape(fig.canvas.get_width_height()[::-1]+(3,))
 
@@ -159,20 +149,6 @@ def r2r():
         bluehist = imageblue.copy()
         bluehist = rgb2gray(bluehist)
 
-        histogram,bin_edges = np.histogram(bluehist,bins=256,range=(0,1))
-
-        fig_b = plt.figure()
-        plt.xlim([0.0,1.0])
-        plt.plot(bin_edges[0:-1],histogram)
-
-        fig_b.canvas.draw()
-        w,h = fig_b.canvas.get_width_height()
-        bluehist = np.fromstring(fig_b.canvas.tostring_argb(),dtype =np.uint8)
-        bluehist.shape = (w,h,4)
-        bluehist = np.roll(bluehist,3,axis=2)
-
-        bluehist_i = Image.frombytes("RGBA",(w,h),bluehist.tostring())
-        bluehist = np.asarray(bluehist_i)
 
         imagered = image.copy()
         imagered[:, :, 1] = 0
@@ -181,53 +157,25 @@ def r2r():
         redhist = imagered.copy()
         redhist = rgb2gray(redhist)
 
-        histogram,bin_edges = np.histogram(redhist,bins=256,range=(0,1))
-        fig_r = plt.figure()
-        plt.xlim([0.0,1.0])
-        plt.plot(bin_edges[0:-1],histogram)
-
-        fig_r.canvas.draw()
-        w,h = fig_r.canvas.get_width_height()
-        redhist = np.fromstring(fig_r.canvas.tostring_argb(),dtype =np.uint8)
-        redhist.shape = (w,h,4)
-        redhist = np.roll(redhist,3,axis=2)
-
-        redhist_i = Image.frombytes("RGBA",(w,h),redhist.tostring())
-        redhist = np.asarray(redhist_i)
-
 
 
         red_64 = encode(imagered)
-        red_hist_64 = encode(redhist)##tu
+        red_hist_64 = encode(makeHist(redhist))##tu
 
         green_64 = encode(imagegreen)
-        green_hist_64 = encode(greenhist)##tu
+        green_hist_64 = encode(makeHist(greenhist))##tu
 
         blue_64 = encode(imageblue)
-        blue_hist_64 = encode(bluehist)
+        blue_hist_64 = encode(makeHist(bluehist))
         
 
 #------------------------grayscale------------------------#
         rgbgray = link_to_image
         rgbgray = rgb2gray(rgbgray)
 
-        histogram,bin_edges = np.histogram(rgbgray,bins=256,range=(0,1))
-        fig_rgbg = plt.figure()
-        plt.xlim([0.0,1.0])
-        plt.plot(bin_edges[0:-1],histogram)
-        
-        fig_rgbg.canvas.draw()
-        w,h = fig_rgbg.canvas.get_width_height()
-        grayhist = np.fromstring(fig_rgbg.canvas.tostring_argb(),dtype =np.uint8)
-        grayhist.shape = (w,h,4)
-        grayhist = np.roll(grayhist,3,axis=2)
-
-        grayhist_i = Image.frombytes("RGBA",(w,h),grayhist.tostring())
-        grayhist = np.asarray(grayhist_i)
-
 
         rgbgray_64 = encode(rgbgray)
-        gray_hist_64 = encode(grayhist)
+        gray_hist_64 = encode(makeHist(rgbgray))
         #blue_hist_64 = encode(blue_hist)
 
 
@@ -239,11 +187,31 @@ def r2r():
         }
 
         return list64
+
+
+def makeHist(colorspace):
+    
+        histogram,bin_edges = np.histogram(colorspace ,bins=256,range=(0,1))
+        fig = plt.figure()
+        plt.xlim([0.0,1.0])
+        plt.plot(bin_edges[0:-1],histogram)
+        
+        fig.canvas.draw()
+        w,h = fig.canvas.get_width_height()
+        hist = np.fromstring(fig.canvas.tostring_argb(),dtype =np.uint8)
+        hist.shape = (w,h,4)
+        hist = np.roll(hist,3,axis=2)
+        hist_i = Image.frombytes("RGBA",(w,h),hist.tostring())
+        hist = np.asarray(hist_i)
+
+        return hist
 #ENDOF RGB TO OTHERS
 def r2grayscale():
     pass
 
 # ###########################HSV###############################
+
+
 
 #HSV TO OTHERS
 
