@@ -1,10 +1,11 @@
+import PIL
 import eel
 from skimage.color.colorconv import gray2rgb, hsv2rgb, rgb2gray
 import skimage.io
 from skimage import io, exposure,img_as_float
 from io import BytesIO
 from skimage.color import rgb2hsv, rgb2yuv
-from PIL import Image
+from PIL import Image, ImageCms
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -83,28 +84,81 @@ def r2h():
 
         return list64
 
+def getCmyk(image):
+
+    R = image[:,:,0].astype(float)
+    G = image[:,:,1].astype(float)
+    B = image[:,:,2].astype(float)
+    
+    C = np.zeros_like(B)
+    M = np.zeros_like(B)
+    Y = np.zeros_like(B)
+    K = np.zeros_like(B)
+    
+
+    R_ =np.copy(R)
+    G_ =np.copy(G)
+    B_ =np.copy(B)
+
+
+    for i in range(R.shape[0]):
+        for j in range(R.shape[1]):
+            R_[i, j] = R[i, j]/255
+            G_[i, j] = G[i, j]/255
+            B_[i, j] = B[i, j]/255
+
+            K[i, j] = 1 - max(R_[i, j], G_[i, j], B_[i, j])
+            if (R_[i, j] == 0) and (G_[i, j] == 0) and (B_[i, j] == 0):
+            # black
+                C[i, j] = 0
+                M[i, j] = 0  
+                Y[i, j] = 0
+            else:
+                C[i, j] = ((1 - B_[i, j] - K[i, j])/float((1 - K[i, j])))
+                M[i, j] = ((1 - G_[i, j] - K[i, j])/float((1 - K[i, j])))
+                Y[i, j] = ((1 - R_[i, j] - K[i, j])/float((1 - K[i, j])))
+
+    CMYK = (np.dstack((C,M,Y,K)) * 255).astype(np.uint8)
+    return CMYK
+
+
+
 def r2cmyk():
+    pass
     while link_to_image is None:
         pass
     else:
-        image = Image.fromarray(link_to_image).convert('CMYK')
-        np_image = np.array(image)
+        image = link_to_image
+        image_array = np.array
+    image_cmyk = getCmyk(image)
 
-        c,m,y,k = cv2.split(np_image)
+    m = image_cmyk[:,:,0]
+    c = image_cmyk[:,:,1]
+    y = image_cmyk[:,:,2]
+    k = image_cmyk[:,:,3]
+
+    
 
 
-        
-        cyan_64 = encode(c)
-        magenta_64 = encode(m)
-        yellow_64 = encode(y)
-        bk_64 = encode(k)
-        list64 = {  # list of base64 images
-            "Cyan": [cyan_64],
-            "Magenta": [magenta_64],
-            "Yellow": [yellow_64],
+    cyan_64 = encode(c)
+    magenta_64 = encode(m)
+    yellow_64 = encode(y)
+    bk_64 = encode(k)
+    chist = encode(makeHist(c))
+    mhist = encode(makeHist(m))
+    yhist = encode(makeHist(y))
+    khist = encode(makeHist(k))
 
-        }
-        return list64
+    
+
+    list64 = {  # list of base64 images
+            "Cyan": [cyan_64,chist],
+            "Magenta": [magenta_64,mhist],
+            "Yellow": [bk_64,khist],
+            "black": [yellow_64,yhist],
+
+    }
+    return list64
 
 
 def make_lut_u():
@@ -152,9 +206,12 @@ def r2r():
         pass
     else:
         image = link_to_image
+
+        print(image[:,:,1][255])
         imagegreen = image.copy()
         imagegreen[:, :, 0] = 0
         imagegreen[:, :, 2] = 0
+
 
         greenhist = imagegreen.copy()
         greenhist = rgb2gray(greenhist)
